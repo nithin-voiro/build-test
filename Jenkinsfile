@@ -1,56 +1,51 @@
 pipeline {
     agent any
 
-    environment {
-        // Define environment variables (Optional)
-        APP_NAME = 'MyApp'
-        DEPLOY_ENV = 'production'
-    }
-
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                echo 'Cloning the repository...'
-                checkout scm // Fetch the code from SCM (Git in this case)
+                echo 'Cloning repository...'
+                checkout scm // Uses the repository configured in the Jenkins job
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                bat 'gradlew build' // Replace with your build command
+                echo 'Building the project...'
+                bat '''
+                    echo Starting Build Process
+                    dir
+                '''
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                bat 'gradlew test' // Replace with your test command
-            }
-        }
-
-        stage('Package') {
-            steps {
-                echo 'Packaging the application...'
-                bat 'gradlew assemble' // Replace with your packaging command
+                bat '''
+                    echo Running Test Cases
+                    dir
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying ${APP_NAME} to ${DEPLOY_ENV} environment..."
-                bat 'deploy_script.bat' // Replace with your deployment command/script
+                echo 'Deploying application...'
+                bat '''
+                    echo Deployment Step
+                    dir
+                '''
             }
         }
     }
 
     post {
         always {
-            echo 'Cleaning up workspace...'
-            deleteDir() // Clean up workspace
+            echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
             echo 'Pipeline failed. Check logs for details.'
