@@ -1,41 +1,36 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\Windows\\System32;${env.PATH}"
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
                 echo 'Cloning repository...'
-                checkout scm // Uses the repository configured in the Jenkins job
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                bat '''
-                    echo Starting Build Process
-                    dir
-                '''
+                bat 'cmd.exe /c echo Building the project using cmd.exe'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                bat '''
-                    echo Running Test Cases
-                    dir
-                '''
+                bat 'cmd.exe /c echo Running tests using cmd.exe'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                bat '''
-                    echo Deployment Step
-                    dir
-                '''
+                bat 'cmd.exe /c echo Deploying application using cmd.exe'
             }
         }
     }
